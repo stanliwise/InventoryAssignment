@@ -31,5 +31,7 @@ Route::prefix('/admin')
     ->as('admin')
     ->middleware(['auth', 'can:is-admin'])
     ->group(function(){
-
+        Route::get('categories/create', function(){
+            return Inertia::render('Admin/Categories/CreateCategory');
+        });
     });
