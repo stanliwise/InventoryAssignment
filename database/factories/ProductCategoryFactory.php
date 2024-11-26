@@ -17,8 +17,8 @@ class ProductCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            
-             'titlee' => $faker->u
+             'name' => $this->faker->unique()->word(),
+             'discount_value' => $this->faker->randomFloat(2, 1, 5)
         ];
     }
 }

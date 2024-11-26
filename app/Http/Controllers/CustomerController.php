@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -68,7 +67,7 @@ class CustomerController extends Controller
             'discount_value' => 'nullable|numeric|gte:0',
         ]);
 
-        
+
     }
 
     /**

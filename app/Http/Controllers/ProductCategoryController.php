@@ -93,7 +93,6 @@ class ProductCategoryController extends Controller implements HasMiddleware
 
         $productCategory->update($filteredData);
 
-
     }
 
     /**

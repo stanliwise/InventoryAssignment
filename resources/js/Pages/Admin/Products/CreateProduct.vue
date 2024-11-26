@@ -20,7 +20,7 @@ const form = useForm({
     title: '',
     description: '',
     price: 0,
-    category_id: ''
+    product_category_id: ''
 });
 
 const submit = () => {
@@ -58,19 +58,19 @@ const submit = () => {
 
                         <div>
                             <InputLabel>Category</InputLabel>
-                            <SelectInput v-model="form.category_id" required class="block w-full">
+                            <SelectInput v-model="form.product_category_id" required class="block w-full">
                                 <option value="">Select Category</option>
                                 <option :value="category.id" v-for="category of categories">{{ category.title }}
                                 </option>
                             </SelectInput>
-                            <InputError :message="form.errors.category_id" />
+                            <InputError :message="form.errors.product_category_id" />
                         </div>
 
                         <div>
-                            <InputLabel>Category</InputLabel>
+                            <InputLabel>Description</InputLabel>
                             <TextAreaInput v-model="form.description" placeholder="Description" maxlength="255" rows="2"
                                 class="block w-full resize-none" />
-                            <InputError :message="form.errors.category_id" />
+                            <InputError :message="form.errors.description" />
                         </div>
 
                         <div>

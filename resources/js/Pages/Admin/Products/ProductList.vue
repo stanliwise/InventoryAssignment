@@ -26,7 +26,12 @@ const filters = ref({
 });
 
 const getData = async () => {
-    router.get(route(route().current, filters.value));
+    router.get(route(route().current(), {
+        page: filters.value.page,
+        filters: filters.value.category_id
+            ? {category_id: filters.value.category_id}
+            : null
+    }));
 }
 
 const headers = [
@@ -65,7 +70,12 @@ watch(filters, () => {
                             </Link>
                         </div>
                         <div class="flex items-center">
-                            <SelectInput :options="categories" v-model="selectedCategory" />
+                            <SelectInput v-model="filters.category_id">
+                                <option value="">All Categories</option>
+                                <option v-for="category in categories" :key="category.id" :value="category.id">
+                                    {{ category.title }}
+                                </option>
+                            </SelectInput>
                         </div>
                     </div>
                     <table class="table w-full overflow-x-hidden">

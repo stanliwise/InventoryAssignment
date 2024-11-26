@@ -30,7 +30,7 @@ class ProductController extends Controller
 
         return Inertia::render("Admin/Products/ProductList", [
             'products' => ProductResource::collection(Product::filter($filters)->paginate(20)),
-            'categories' => fn () =>  ProductCategory::select('id', 'title')
+            'categories' => ProductCategory::select('id', 'title')
                 ->orderBy('title', 'asc')
                 ->get()
         ]);
@@ -54,18 +54,20 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'price' => 'numeric|gt:0',
-            'title' => 'required|string|min:5',
-            'description' => 'required|string||description',
-            'category' => 'exists:product_categories'
+            'price' => 'required|numeric|gt:0',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'product_category_id' => 'required|exists:product_categories,id'
         ]);
 
-        return Product::create([
-            'price' => $request->request,
+        $product =  Product::create([
+            'price' => $request->price,
             'title' => $request->title,
             'description' => $request->description,
-            'product_category_id' => $request->price,
+            'product_category_id' => $request->product_category_id,
         ]);
+
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -89,19 +91,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validated = $request->validate([
             'price' => 'nullable|numeric|gt:0',
-            'title' => 'nullable|required|string|min:5',
-            'description' => 'nullable|required|string||description',
-            'category' => 'nullable|exists:product_categories'
+            'title' => 'nullable|required|string',
+            'description' => 'nullable|required|string',
+            'product_category_id' => 'nullable|exists:product_categories,id'
         ]);
 
-        return $product->update([
-            'price' => $request->request,
-            'title' => $request->title,
-            'description' => $request->description,
-            'product_category_id' => $request->price,
-        ]);
+        // Filter out null values from the validated data
+        $filteredData = collect($validated)->filter(function ($value) {
+            return !is_null($value);
+        })->toArray();
+
+        $product->update($filteredData);
+
+        return (new ProductResource($product))->resolve();
     }
 
     /**

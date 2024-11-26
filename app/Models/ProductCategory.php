@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductCategory extends Model
 {
+    protected $guarded = [];
+    
     /** @use HasFactory<\Database\Factories\ProductCategoryFactory> */
     use HasFactory;
 
