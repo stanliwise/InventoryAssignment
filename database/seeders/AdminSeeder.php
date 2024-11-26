@@ -20,6 +20,15 @@ class AdminSeeder extends Seeder
             'is_admin' => true,
         ]);
 
+        $user = User::create([
+            'name' => 'User one',
+            'email' => 'user@gmail.com',
+            'password' => 'password',
+            'is_admin' => false,
+        ]);
+
+        $user->markEmailAsVerified();
+
         $admin->markEmailAsVerified();
     }
 }

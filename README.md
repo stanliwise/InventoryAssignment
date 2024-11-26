@@ -24,7 +24,20 @@
     npm run dev
     ```
 
-5. Create an Admin Acount
+5. Seed dummy data
     ```shell
-    php artisan 
+    php artisan migrate:fresh
+    php artisan db:seed
     ````
+
+6. Turn on Server
+    ```shell
+    php artisan db serve
+    ````
+7. Login details for admin
+   `johndoe@gmail.com`<br>
+   `password`
+
+8. To view Users frontend
+   `user@gmail.com`<br>
+   `password`
