@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 uses(RefreshDatabase::class);
 uses(WithFaker::class);
 
-test('product index works', function () {
+test('product creation works', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     ProductCategory::factory()->create();
     $this->actingAs($user)->postJson(route('product.store'), [
@@ -34,14 +34,20 @@ test('product updating works', function () {
     $this->assertDatabaseHas('products', ['title' => 'Caprison']);
 });
 
-test('product delete works', function () {
+test('product deletion works', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     $category = ProductCategory::factory()->create();
     $product = Product::factory()->create(['product_category_id' => $category->id]);
 
-    $this->actingAs($user)->patchJson(route('product.update', ['product' => $product->id]), [
+    $this->actingAs($user)->deleteJson(route('product.destroy', ['product' => $product->id]), [
         'title' => 'Caprison'
     ])->assertOk();
 
-    $this->assertDatabaseHas('products', ['title' => 'Caprison']);
+    $this->assertDatabaseCount('products', 0);
+});
+
+
+test('product sales price and cost price', function(){
+    //ProductCategory::create([])
+    $this->postJson(route('customer.index'));
 });

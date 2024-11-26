@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
