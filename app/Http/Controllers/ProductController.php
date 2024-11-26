@@ -22,7 +22,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Product $product)
+    public function index()
     {
         return ProductResource::collection(Product::paginate(20));
     }
