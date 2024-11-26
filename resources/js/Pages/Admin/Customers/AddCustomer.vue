@@ -8,21 +8,24 @@ import InputError from '@/components/InputError.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
 
 const form = useForm({
-    title: '',
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
     discount: 0
 });
 
 const submit = () => {
-    form.post(route('admin.categories.store'))
+    form.post(route('admin.customers.store'))
 };
 </script>
 <template>
     <AuthenticatedLayout>
 
-        <Head title="Create Category" />
+        <Head title="Add Customer" />
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Create Category
+                Add Customer
             </h2>
         </template>
 
@@ -32,10 +35,17 @@ const submit = () => {
                     <form @submit.prevent="submit"
                         class="max-w-md mx-auto px-6 py-10 shadow-sm rounded-lg flex flex-col space-y-6">
                         <div>
-                            <InputLabel>Title</InputLabel>
-                            <TextInput v-model="form.title" required placeholder="Title" maxlength="255"
+                            <InputLabel>Name</InputLabel>
+                            <TextInput v-model="form.name" required placeholder="Name" maxlength="255"
                                 class="block w-full" />
-                            <InputError :message="form.errors.title" />
+                            <InputError :message="form.errors.name" />
+                        </div>
+
+                        <div>
+                            <InputLabel>Email</InputLabel>
+                            <TextInput v-model="form.email" required placeholder="username@example.com" maxlength="255"
+                                class="block w-full" type="email" />
+                            <InputError :message="form.errors.email" />
                         </div>
 
                         <div>
@@ -46,7 +56,21 @@ const submit = () => {
                         </div>
 
                         <div>
-                            <PrimaryButton>
+                            <InputLabel>Password</InputLabel>
+                            <TextInput v-model="form.password" required placeholder="Password" maxlength="32"
+                                minlength="8" class="block w-full" type="password" />
+                            <InputError :message="form.errors.password" />
+                        </div>
+
+                        <div>
+                            <InputLabel>Re-enter Password</InputLabel>
+                            <TextInput v-model="form.password_confirmation" required placeholder="Re-enter Password"
+                                maxlength="32" minlength="8" class="block w-full" type="password" />
+                            <InputError :message="form.errors.password_confirmation" />
+                        </div>
+
+                        <div>
+                            <PrimaryButton :disabled="form.processing">
                                 Submit
                             </PrimaryButton>
                         </div>

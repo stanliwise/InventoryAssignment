@@ -7,22 +7,26 @@ import InputLabel from '@/components/InputLabel.vue';
 import InputError from '@/components/InputError.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
 
+const props = defineProps({
+    category: Object
+})
+
 const form = useForm({
-    title: '',
-    discount: 0
+    title: props.category.title ?? '',
+    discount: props.category.discount ?? 0
 });
 
 const submit = () => {
-    form.post(route('admin.categories.store'))
+    form.put(route('admin.categories.update', props.category))
 };
 </script>
 <template>
     <AuthenticatedLayout>
 
-        <Head title="Create Category" />
+        <Head title="Edit Category" />
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Create Category
+                Edit Category
             </h2>
         </template>
 

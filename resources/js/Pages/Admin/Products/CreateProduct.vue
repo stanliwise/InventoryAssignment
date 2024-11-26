@@ -6,23 +6,34 @@ import TextInput from '@/components/TextInput.vue';
 import InputLabel from '@/components/InputLabel.vue';
 import InputError from '@/components/InputError.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
+import SelectInput from '@/components/SelectInput.vue';
+import TextAreaInput from '@/components/TextAreaInput.vue';
+
+const props = defineProps({
+    categories: {
+        type: Array,
+        default: () => []
+    }
+});
 
 const form = useForm({
     title: '',
-    discount: 0
+    description: '',
+    price: 0,
+    category_id: ''
 });
 
 const submit = () => {
-    form.post(route('admin.categories.store'))
+    form.post(route('admin.products.store'))
 };
 </script>
 <template>
     <AuthenticatedLayout>
 
-        <Head title="Create Category" />
+        <Head title="Add Product" />
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Create Category
+                Add Product
             </h2>
         </template>
 
@@ -39,10 +50,27 @@ const submit = () => {
                         </div>
 
                         <div>
-                            <InputLabel>Discount</InputLabel>
-                            <TextInput v-model="form.discount" placeholder="Discount" min="0" max="100" steps="0.01"
-                                type="number" class="block w-full" />
-                            <InputError :message="form.errors.discount" />
+                            <InputLabel>Price</InputLabel>
+                            <TextInput v-model="form.price" placeholder="Price" min="0" steps="0.01" type="number"
+                                class="block w-full" />
+                            <InputError :message="form.errors.price" />
+                        </div>
+
+                        <div>
+                            <InputLabel>Category</InputLabel>
+                            <SelectInput v-model="form.category_id" required class="block w-full">
+                                <option value="">Select Category</option>
+                                <option :value="category.id" v-for="category of categories">{{ category.title }}
+                                </option>
+                            </SelectInput>
+                            <InputError :message="form.errors.category_id" />
+                        </div>
+
+                        <div>
+                            <InputLabel>Category</InputLabel>
+                            <TextAreaInput v-model="form.description" placeholder="Description" maxlength="255" rows="2"
+                                class="block w-full resize-none" />
+                            <InputError :message="form.errors.category_id" />
                         </div>
 
                         <div>

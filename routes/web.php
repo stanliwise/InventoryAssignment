@@ -34,4 +34,12 @@ Route::prefix('/admin')
         Route::get('categories/create', function(){
             return Inertia::render('Admin/Categories/CreateCategory');
         });
+
+        Route::get('products/create', function(){
+            return Inertia::render('Admin/Products/CreateProduct');
+        });
+
+        Route::get('customers/create', function(){
+            return Inertia::render('Admin/Customers/AddCustomer');
+        });
     });
