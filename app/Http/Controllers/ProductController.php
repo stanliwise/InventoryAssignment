@@ -82,7 +82,7 @@ class ProductController extends Controller implements HasMiddleware
         $validated = $request->validate([
             'price' => 'nullable|numeric|gt:0',
             'title' => 'nullable|required|string',
-            'description' => 'nullable|required|string',
+            'description' => 'nullable|string',
             'product_category_id' => 'nullable|exists:product_categories,id'
         ]);
 
