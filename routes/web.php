@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    return redirect()->route('dashboard');
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -37,4 +38,10 @@ Route::prefix('/admin')
         Route::resource('/products', ProductController::class);
         Route::resource('/customers', CustomerController::class);
         Route::resource('/categories', CategoryController::class);
+    });
+
+Route::middleware(['auth'])
+    ->group(function(){
+        Route::get('/products', [ProductController::class, 'customerProducts'])
+            ->name('products.index');
     });

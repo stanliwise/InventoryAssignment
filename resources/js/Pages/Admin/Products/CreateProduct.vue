@@ -60,7 +60,7 @@ const submit = () => {
                             <InputLabel>Category</InputLabel>
                             <SelectInput v-model="form.product_category_id" required class="block w-full">
                                 <option value="">Select Category</option>
-                                <option :value="category.id" v-for="category of categories">{{ category.title }}
+                                <option :value="category.id" v-for="category of categories">{{ category.name }}
                                 </option>
                             </SelectInput>
                             <InputError :message="form.errors.product_category_id" />

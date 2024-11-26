@@ -49,7 +49,14 @@ const { user } = usePage().props.auth;
                         </div>
                     </template>
                     <template v-else>
-
+                        <div class="flex items-center gap-6 flex-wrap py-10 px-10">
+                            <Link
+                                :href="route('products.index')"
+                                class="py-10 px-6 rounded-lg shadow hover:text-gray-600 transition ease-in-out duration-150 inline-flex items-center justify-center"
+                            >
+                                Products
+                            </Link>
+                        </div>
                     </template>
                 </div>
             </div>

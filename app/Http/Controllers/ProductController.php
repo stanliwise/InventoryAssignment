@@ -18,7 +18,7 @@ class ProductController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('can:is-admin', except: ['index', 'show']),
+            new Middleware('can:is-admin', except: ['index', 'show', 'customerProducts']),
         ];
     }
 
@@ -30,9 +30,11 @@ class ProductController extends Controller implements HasMiddleware
         $filters = request('filters', []);
 
         return Inertia::render("Admin/Products/ProductList", [
-            'products' => ProductResource::collection(Product::filter($filters)->paginate(20)),
-            'categories' => ProductCategory::select('id', 'title')
-                ->orderBy('title', 'asc')
+            'products' => ProductResource::collection(
+                Product::with('category')->filter($filters)->paginate(20)
+            ),
+            'categories' => ProductCategory::select('id', 'name')
+                ->orderBy('name', 'asc')
                 ->get()
         ]);
     }
@@ -43,8 +45,8 @@ class ProductController extends Controller implements HasMiddleware
     public function create()
     {
         return Inertia::render("Admin/Products/CreateProduct", [
-            'categories' => fn () =>  ProductCategory::select('id', 'title')
-                ->orderBy('title', 'asc')
+            'categories' => fn () =>  ProductCategory::select('id', 'name')
+                ->orderBy('name', 'asc')
                 ->get()
         ]);
     }
@@ -61,7 +63,7 @@ class ProductController extends Controller implements HasMiddleware
             'product_category_id' => 'required|exists:product_categories,id'
         ]);
 
-        $product =  Product::create([
+        Product::create([
             'price' => $request->price,
             'title' => $request->title,
             'description' => $request->description,
@@ -84,7 +86,12 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render("Admin/Products/EditProduct", [
+            'product' => new ProductResource($product),
+            'categories' => ProductCategory::select('id', 'name')
+                ->orderBy('name', 'asc')
+                ->get()
+        ]);
     }
 
     /**
@@ -106,7 +113,7 @@ class ProductController extends Controller implements HasMiddleware
 
         $product->update($filteredData);
 
-        return (new ProductResource($product))->resolve();
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -116,5 +123,19 @@ class ProductController extends Controller implements HasMiddleware
     {
         $title = $product->title;
         return $product->delete();
+    }
+
+    public function customerProducts()
+    {
+        $filters = request('filters', []);
+
+        return Inertia::render("Products/ProductList", [
+            'products' => ProductResource::collection(
+                Product::with('category')->filter($filters)->paginate(20)
+            ),
+            'categories' => ProductCategory::select('id', 'name')
+                ->orderBy('name', 'asc')
+                ->get()
+        ]);
     }
 }

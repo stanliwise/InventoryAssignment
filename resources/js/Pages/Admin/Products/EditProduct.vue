@@ -18,14 +18,14 @@ const props = defineProps({
 });
 
 const form = useForm({
-    title: props.product.title ?? '',
-    description: props.product.description ?? '',
-    price: props.product.price ?? 0,
-    category_id: props.product.category_id ?? '',
+    title: props.product.data.title ?? '',
+    description: props.product.data.description ?? '',
+    price: props.product.data.price ?? 0,
+    category_id: props.product.data.category?.id ?? '',
 });
 
 const submit = () => {
-    form.put(route('admin.products.update', props.product))
+    form.put(route('admin.products.update', props.product.data.id))
 };
 </script>
 <template>
@@ -61,7 +61,7 @@ const submit = () => {
                             <InputLabel>Category</InputLabel>
                             <SelectInput v-model="form.category_id" required class="block w-full">
                                 <option value="">Select Category</option>
-                                <option :value="category.id" v-for="category of categories">{{ category.title }}
+                                <option :value="category.id" v-for="category of categories">{{ category.name }}
                                 </option>
                             </SelectInput>
                             <InputError :message="form.errors.category_id" />

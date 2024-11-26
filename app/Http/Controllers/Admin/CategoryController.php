@@ -24,12 +24,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|unique:product_categories,title',
+            'name' => 'required|string|unique:product_categories,name',
             'discount_value' => 'nullable|numeric|min:0|max:100',
         ]);
 
         ProductCategory::create([
-            'title' => $request->title,
+            'name' => $request->name,
             'discount_value' => $request->discount_value
         ]);
 
@@ -46,7 +46,7 @@ class CategoryController extends Controller
     public function update(Request $request, ProductCategory $category)
     {
         $validated = $request->validate([
-            'title' => 'nullable|string|min:2',
+            'name' => 'nullable|string|min:2',
             'discount_value' => 'nullable|numeric|min:0|max:100',
         ]);
 

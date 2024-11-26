@@ -12,7 +12,7 @@ const props = defineProps({
 })
 
 const form = useForm({
-    title: props.category.title ?? '',
+    name: props.category.name ?? '',
     discount_value: props.category.discount_value ?? 0
 });
 
@@ -36,10 +36,10 @@ const submit = () => {
                     <form @submit.prevent="submit"
                         class="max-w-md mx-auto px-6 py-10 shadow-sm rounded-lg flex flex-col space-y-6">
                         <div>
-                            <InputLabel>Title</InputLabel>
-                            <TextInput v-model="form.title" required placeholder="Title" maxlength="255"
+                            <InputLabel>Name</InputLabel>
+                            <TextInput v-model="form.name" required placeholder="Name" maxlength="255"
                                 class="block w-full" />
-                            <InputError :message="form.errors.title" />
+                            <InputError :message="form.errors.name" />
                         </div>
 
                         <div>

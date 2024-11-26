@@ -66,7 +66,7 @@ watch(filters, () => {
                         </thead>
                         <tbody>
                             <tr v-for="category of categories.data" :key="category.id">
-                                <td class="px-4 py-3">{{ category.title }}</td>
+                                <td class="px-4 py-3">{{ category.name }}</td>
                                 <td class="px-4 py-3">{{ category.discount_value }}</td>
                                 <td class="px-4 py-3">{{ new Date(category.created_at).toDateString() }}</td>
                                 <td class="px-4 py-3">

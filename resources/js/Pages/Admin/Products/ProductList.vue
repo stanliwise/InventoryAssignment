@@ -73,7 +73,7 @@ watch(filters, () => {
                             <SelectInput v-model="filters.category_id">
                                 <option value="">All Categories</option>
                                 <option v-for="category in categories" :key="category.id" :value="category.id">
-                                    {{ category.title }}
+                                    {{ category.name }}
                                 </option>
                             </SelectInput>
                         </div>
@@ -89,14 +89,14 @@ watch(filters, () => {
                         </thead>
                         <tbody>
                             <tr v-for="product in products.data" :key="product.id">
-                                <td>{{ product.title }}</td>
-                                <td>{{ product.price }}</td>
-                                <td>{{ product.category?.title }}</td>
-                                <td>{{ product.description }}</td>
-                                <td>{{ product.created_at }}</td>
-                                <td>
+                                <td class="px-4 py-3">{{ product.title }}</td>
+                                <td class="px-4 py-3">{{ product.price }}</td>
+                                <td class="px-4 py-3">{{ product.category?.name }}</td>
+                                <td class="px-4 py-3">{{ product.description }}</td>
+                                <td class="px-4 py-3">{{ new Date(product.created_at).toDateString()}}</td>
+                                <td class="px-4 py-3">
                                     <div class="inline-flex items-center gap-4">
-                                        <Link :href="route('admin.products.edit', product.id)"
+                                        <Link :href="route('admin.products.edit', product)"
                                             class="text-sm font-medium text-gray-500 hover:text-gray-700">
                                         Edit
                                         </Link>

@@ -69,14 +69,14 @@ watch(filters, () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="customer in customers.data" :key="product.id">
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.email }}</td>
-                                <td>{{ product.discount }}</td>
-                                <td>{{ product.created_at }}</td>
-                                <td>
+                            <tr v-for="customer in customers.data" :key="customer.id">
+                                <td class="px-4 py-3">{{ customer.name }}</td>
+                                <td class="px-4 py-3">{{ customer.email }}</td>
+                                <td class="px-4 py-3">{{ customer.discount_value }}</td>
+                                <td class="px-4 py-3">{{ new Date(customer.created_at).toDateString() }}</td>
+                                <td class="px-4 py-3">
                                     <div class="inline-flex items-center gap-4">
-                                        <Link :href="route('admin.customers.edit', product.id)"
+                                        <Link :href="route('admin.customers.edit', customer.id)"
                                             class="text-sm font-medium text-gray-500 hover:text-gray-700">
                                         Edit
                                         </Link>

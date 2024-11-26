@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class ProductCategory extends Model
 {
     protected $guarded = [];
-    
+
     /** @use HasFactory<\Database\Factories\ProductCategoryFactory> */
     use HasFactory;
 
-    protected $fillable =['title', 'discount_value'];
+    protected $fillable =['name', 'discount_value'];
     protected $casts = [
         'discount_value' => 'float'
     ];

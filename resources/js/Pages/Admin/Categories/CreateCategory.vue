@@ -8,7 +8,7 @@ import InputError from '@/components/InputError.vue';
 import PrimaryButton from '@/components/PrimaryButton.vue';
 
 const form = useForm({
-    title: '',
+    name: '',
     discount_value: 0
 });
 
@@ -32,10 +32,10 @@ const submit = () => {
                     <form @submit.prevent="submit"
                         class="max-w-md mx-auto px-6 py-10 shadow-sm rounded-lg flex flex-col space-y-6">
                         <div>
-                            <InputLabel>Title</InputLabel>
-                            <TextInput v-model="form.title" required placeholder="Title" maxlength="255"
+                            <InputLabel>Name</InputLabel>
+                            <TextInput v-model="form.name" required placeholder="Name" maxlength="255"
                                 class="block w-full" />
-                            <InputError :message="form.errors.title" />
+                            <InputError :message="form.errors.name" />
                         </div>
 
                         <div>

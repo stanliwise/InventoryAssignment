@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 class CustomerController extends Controller implements HasMiddleware
 {
@@ -25,14 +26,19 @@ class CustomerController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return User::IsAdmin(false)->paginate(20);
+        return Inertia::render('Admin/Customers/CustomerList', [
+            'customers' => User::where('is_admin', false)->paginate(20)
+        ]);
     }
 
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        return Inertia::render('Admin/Customers/AddCustomer');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,16 +46,20 @@ class CustomerController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $request->validate([
-            'password' => 'confirmed',
+            'name' => 'required|string|min:2|max:255',
+            'password' => 'required|confirmed|min:8|max:32',
             'email' =>  'unique:users,email',
             'discount_value' => 'nullable|numeric|gte:0',
         ]);
 
         User::create([
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'discount_value' => $request->discount_value,
         ]);
+
+        return redirect()->route('admin.customers.index');
     }
 
     /**
@@ -63,21 +73,32 @@ class CustomerController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $customer)
     {
-        request()->validate([]);
+        return Inertia::render('Admin/Customers/EditCustomer', [
+            'customer' => $customer
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $customer)
     {
-        $request->validate([
+        $data = $request->validate([
+            'name' => 'nullable|string|min:2|max:255',
             'password' => 'nullable|confirmed',
-            'email' =>  'nullable|unique:users,email',
+            'email' =>  'nullable|unique:users,email,' . $customer->id,
             'discount_value' => 'nullable|numeric|gte:0',
         ]);
+
+        $filtered = collect($data)->filter(
+            fn ($datum) => !is_null($datum)
+        );
+
+        $customer->update($filtered->toArray());
+
+        return redirect()->route('admin.customers.index');
     }
 
     /**

@@ -11,16 +11,17 @@ const props = defineProps({
     customer: Object
 });
 
+
 const form = useForm({
-    name: props.customer.name,,
+    name: props.customer.name,
     email: props.customer.email,
     password: '',
     password_confirmation: '',
-    discount: props.customer.discount ?? 0
+    discount_value: props.customer.discount_value ?? 0
 });
 
 const submit = () => {
-    form.put(route('admin.customers.update', props.customer))
+    form.put(route('admin.customers.update', props.customer.id))
 };
 </script>
 <template>
@@ -54,21 +55,21 @@ const submit = () => {
 
                         <div>
                             <InputLabel>Discount</InputLabel>
-                            <TextInput v-model="form.discount" placeholder="Discount" min="0" max="100" steps="0.01"
+                            <TextInput v-model="form.discount_value" placeholder="Discount" min="0" max="100" steps="0.01"
                                 type="number" class="block w-full" />
-                            <InputError :message="form.errors.discount" />
+                            <InputError :message="form.errors.discount_value" />
                         </div>
 
                         <div>
                             <InputLabel>Password</InputLabel>
-                            <TextInput v-model="form.password" required placeholder="Password" maxlength="32"
+                            <TextInput v-model="form.password" placeholder="Password" maxlength="32"
                                 minlength="8" class="block w-full" type="password" />
                             <InputError :message="form.errors.password" />
                         </div>
 
                         <div>
                             <InputLabel>Re-enter Password</InputLabel>
-                            <TextInput v-model="form.password_confirmation" required placeholder="Re-enter Password"
+                            <TextInput v-model="form.password_confirmation" placeholder="Re-enter Password"
                                 maxlength="32" minlength="8" class="block w-full" type="password" />
                             <InputError :message="form.errors.password_confirmation" />
                         </div>
