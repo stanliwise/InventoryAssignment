@@ -23,7 +23,7 @@ const getData = async () => {
 
 const headers = [
     { name: "Title", key: "title" },
-    { name: "Price", key: "price" },
+    { name: "Discount", key: "discount_value" },
     { name: "Date Added", key: "created_at" },
     { name: "Action", key: "action" },
 ];
@@ -47,8 +47,8 @@ watch(filters, () => {
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="bg-white shadow-sm sm:rounded-lg">
                     <div
-                        class="flex items-center justify-between px-6 py-3 border-b border-gray-200 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-                        <div class="flex items-center">
+                        class="flex items-center justify-end mb-6 px-6 py-3 border-b border-gray-200 sm:flex-row sm:items-center sm:justify-between sm:px-10 ">
+                        <div class="flex items-center justify-end">
                             <Link :href="route('admin.categories.create')"
                                 class="text-sm font-medium text-gray-500 hover:text-gray-700">
                             Add Category
@@ -65,10 +65,11 @@ watch(filters, () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="category in categories.data" :key="category.id">
-                                <td>{{ product.title }}</td>
-                                <td>{{ product.created_at }}</td>
-                                <td>
+                            <tr v-for="category of categories.data" :key="category.id">
+                                <td class="px-4 py-3">{{ category.title }}</td>
+                                <td class="px-4 py-3">{{ category.discount_value }}</td>
+                                <td class="px-4 py-3">{{ new Date(category.created_at).toDateString() }}</td>
+                                <td class="px-4 py-3">
                                     <div class="inline-flex items-center gap-4">
                                         <Link :href="route('admin.categories.edit', category.id)"
                                             class="text-sm font-medium text-gray-500 hover:text-gray-700">

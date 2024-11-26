@@ -6,6 +6,7 @@ use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Inertia\Inertia;
 
 class ProductCategoryController extends Controller implements HasMiddleware
 {
@@ -25,13 +26,18 @@ class ProductCategoryController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        return ProductCategory::paginate(20);
+        return Inertia::render('Admin/Categories/CategoryList', [
+            'categories' => ProductCategory::paginate(20)
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        return Inertia::render('Admin/Categories/CreateCategory');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -47,6 +53,9 @@ class ProductCategoryController extends Controller implements HasMiddleware
             'name' => $request->name,
             'discount_value' => $request->discount_value
         ]);
+
+        return redirect()->route('admin.categories.index')
+            ->with('success', 'Category created successfully!');
     }
 
     /**
@@ -60,7 +69,11 @@ class ProductCategoryController extends Controller implements HasMiddleware
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductCategory $productCategory) {}
+    public function edit(ProductCategory $productCategory) {
+        return Inertia::render('Admin/Categories/EditCategory', [
+            'category' => $productCategory
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.

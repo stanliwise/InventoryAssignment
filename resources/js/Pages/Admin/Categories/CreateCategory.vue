@@ -9,7 +9,7 @@ import PrimaryButton from '@/components/PrimaryButton.vue';
 
 const form = useForm({
     title: '',
-    discount: 0
+    discount_value: 0
 });
 
 const submit = () => {
@@ -40,13 +40,13 @@ const submit = () => {
 
                         <div>
                             <InputLabel>Discount</InputLabel>
-                            <TextInput v-model="form.discount" placeholder="Discount" min="0" max="100" steps="0.01"
+                            <TextInput v-model="form.discount_value" placeholder="Discount" min="0" max="100" steps="0.01"
                                 type="number" class="block w-full" />
-                            <InputError :message="form.errors.discount" />
+                            <InputError :message="form.errors.discount_value" />
                         </div>
 
                         <div>
-                            <PrimaryButton>
+                            <PrimaryButton :disabled="form.processing" type="submit">
                                 Submit
                             </PrimaryButton>
                         </div>

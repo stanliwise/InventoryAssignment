@@ -21,7 +21,7 @@ const props = defineProps({
 });
 
 const filters = ref({
-    category_id: route().params.filters.category_id ?? '',
+    category_id: route().params.filters?.category_id ?? '',
     page: parseInt(route().params.page ?? 1)
 });
 

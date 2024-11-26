@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
@@ -30,23 +31,10 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::prefix('/admin')
-    ->as('admin')
+    ->as('admin.')
     ->middleware(['auth', 'can:is-admin'])
     ->group(function () {
-        Route::get('categories/create', function () {
-            return Inertia::render('Admin/Categories/CreateCategory');
-        });
-
-        Route::get('products/create', function(){
-            return Inertia::render('Admin/Products/CreateProduct');
-        });
-
-        Route::get('customers/create', function(){
-            return Inertia::render('Admin/Customers/AddCustomer');
-        });
+        Route::resource('/products', ProductController::class);
+        Route::resource('/customers', CustomerController::class);
+        Route::resource('/categories', CategoryController::class);
     });
-
-
-Route::resource('product', ProductController::class);
-Route::resource('customer', CustomerController::class);
-Route::resource('productCategory', ProductCategoryController::class);

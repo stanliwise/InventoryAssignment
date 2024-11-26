@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -22,9 +24,16 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Product $product)
+    public function index()
     {
-        return ProductResource::collection(Product::paginate(20));
+        $filters = request('filters', []);
+
+        return Inertia::render("Admin/Products/ProductList", [
+            'products' => ProductResource::collection(Product::filter($filters)->paginate(20)),
+            'categories' => fn () =>  ProductCategory::select('id', 'title')
+                ->orderBy('title', 'asc')
+                ->get()
+        ]);
     }
 
     /**
@@ -32,7 +41,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Admin/Products/CreateProduct", [
+            'categories' => fn () =>  ProductCategory::select('id', 'title')
+                ->orderBy('title', 'asc')
+                ->get()
+        ]);
     }
 
     /**
