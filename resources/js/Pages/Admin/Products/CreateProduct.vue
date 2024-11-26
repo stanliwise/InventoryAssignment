@@ -2,12 +2,12 @@
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import TextInput from '@/components/TextInput.vue';
-import InputLabel from '@/components/InputLabel.vue';
-import InputError from '@/components/InputError.vue';
-import PrimaryButton from '@/components/PrimaryButton.vue';
-import SelectInput from '@/components/SelectInput.vue';
-import TextAreaInput from '@/components/TextAreaInput.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import TextAreaInput from '@/Components/TextAreaInput.vue';
 
 const props = defineProps({
     categories: {

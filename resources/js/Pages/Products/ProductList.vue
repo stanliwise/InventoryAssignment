@@ -1,12 +1,12 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import TextInput from '@/components/TextInput.vue';
-import InputLabel from '@/components/InputLabel.vue';
-import InputError from '@/components/InputError.vue';
-import PrimaryButton from '@/components/PrimaryButton.vue';
-import SelectInput from '@/components/SelectInput.vue';
-import TextAreaInput from '@/components/TextAreaInput.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import TextAreaInput from '@/Components/TextAreaInput.vue';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -70,12 +70,12 @@ watch(filters, () => {
 
                                 <div class="flex items-center gap-4 flex-wrap">
                                     <span class="text-xs text-gray-600">Price</span>
-                                    <span>${{ product.price }}</span>
+                                    <span>${{ parseFloat(product.price).toFixed(2) }}</span>
                                 </div>
 
                                 <div class="flex items-center gap-4 flex-wrap">
                                     <span class="text-xs text-gray-600">Sale Price</span>
-                                    <span>${{ product.sale_price }}</span>
+                                    <span>${{ parseFloat(product.sale_price).toFixed(2) }}</span>
                                 </div>
                             </div>
 
