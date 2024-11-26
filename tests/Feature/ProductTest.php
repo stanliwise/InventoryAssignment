@@ -12,12 +12,12 @@ uses(WithFaker::class);
 test('product creation works', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     ProductCategory::factory()->create();
-    $this->actingAs($user)->postJson(route('product.store'), [
+    $this->actingAs($user)->postJson(route('admin.products.store'), [
         'title' => $this->faker->word,
         'price' => 20,
         'description' => $this->faker->sentence,
         'product_category_id' => ProductCategory::first()->id,
-    ])->assertOk();
+    ])->assertRedirect();
 
     $this->assertDatabaseCount('products', 1);
 });
@@ -27,9 +27,9 @@ test('product updating works', function () {
     $category = ProductCategory::factory()->create();
     $product = Product::factory()->create(['product_category_id' => $category->id]);
 
-    $this->actingAs($user)->patchJson(route('product.update', ['product' => $product->id]), [
+    $this->actingAs($user)->patchJson(route('admin.products.update', ['product' => $product->id]), [
         'title' => 'Caprison'
-    ])->assertOk();
+    ])->assertRedirect();
 
     $this->assertDatabaseHas('products', ['title' => 'Caprison']);
 });
@@ -39,7 +39,7 @@ test('product deletion works', function () {
     $category = ProductCategory::factory()->create();
     $product = Product::factory()->create(['product_category_id' => $category->id]);
 
-    $this->actingAs($user)->deleteJson(route('product.destroy', ['product' => $product->id]), [
+    $this->actingAs($user)->deleteJson(route('admin.products.update', ['product' => $product->id]), [
         'title' => 'Caprison'
     ])->assertOk();
 
@@ -49,5 +49,5 @@ test('product deletion works', function () {
 
 test('product sales price and cost price', function(){
     //ProductCategory::create([])
-    $this->postJson(route('customer.index'));
+   // $this->postJson(route('admin.customer.index'));
 });

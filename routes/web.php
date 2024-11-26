@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    return redirect()->route('dashboard');
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -30,15 +32,16 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::prefix('/admin')
-    ->as('admin')
+    ->as('admin.')
     ->middleware(['auth', 'can:is-admin'])
     ->group(function () {
-        Route::get('categories/create', function () {
-            return Inertia::render('Admin/Categories/CreateCategory');
-        });
+        Route::resource('/products', ProductController::class);
+        Route::resource('/customers', CustomerController::class);
+        Route::resource('/categories', CategoryController::class);
     });
 
-
-Route::resource('product', ProductController::class)->middleware('auth');
-Route::resource('customer', CustomerController::class);
-Route::resource('productCategory', ProductCategoryController::class);
+Route::middleware(['auth'])
+    ->group(function(){
+        Route::get('/products', [ProductController::class, 'customerProducts'])
+            ->name('products.index');
+    });

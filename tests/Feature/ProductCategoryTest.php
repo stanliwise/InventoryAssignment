@@ -6,16 +6,16 @@ use App\Models\User;
 test('product category creation works expect', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
 
-    $this->actingAs($user)->postJson(route('productCategory.store'), [
+    $this->actingAs($user)->postJson(route('admin.categories.store'), [
         'name' => 'hello',
         'discount_value' => 24
-    ])->assertOk();
+    ])->assertRedirect();
 });
 
 test('product category deletion works expect', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     $product_cat =     ProductCategory::factory()->create();
-    $this->actingAs($user)->deleteJson(route('productCategory.destroy', ['productCategory' => $product_cat->id]))->assertOk();
+    $this->actingAs($user)->deleteJson(route('admin.categories.destroy', ['category' => $product_cat->id]))->assertOk();
     
 });
 
@@ -23,9 +23,9 @@ test('product category update works as expected', function () {
     $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     $product_cat =     ProductCategory::factory()->create([ 'name' => 'categ']);
 
-    $this->actingAs($user)->patchJson(route('productCategory.update', ['productCategory' => $product_cat->id]), [
+    $this->actingAs($user)->patchJson(route('admin.categories.update', ['category' => $product_cat->id]), [
         'name' => 'categ2'
-    ])->assertOk();
+    ])->assertRedirect();
 
     $this->assertDatabaseHas('product_categories', ['name' => 'categ2']);
 });
