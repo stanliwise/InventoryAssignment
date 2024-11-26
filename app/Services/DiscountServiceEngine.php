@@ -11,7 +11,7 @@ class DiscountServiceEngine
     {
         $product_price = $product->price;
 
-        if ($user && ($user_discount = $user->discount_value)) {
+        if ($user && ($user_discount = $user?->discount_value)) {
             $product_price -= static::getDiscountedPrice($product, $user_discount);
         }
 

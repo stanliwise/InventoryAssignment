@@ -6,10 +6,11 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 
-class ProductController extends Controller
+class ProductController extends Controller implements HasMiddleware
 {
     /**
      * Get the middleware that should be assigned to the controller.
@@ -17,7 +18,7 @@ class ProductController extends Controller
     public static function middleware(): array
     {
         return [
-            new Middleware('can:is_admin', except: ['index', 'show']),
+            new Middleware('can:is-admin', except: ['index', 'show']),
         ];
     }
 

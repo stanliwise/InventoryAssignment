@@ -4,10 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 
-class CustomerController extends Controller
+class CustomerController extends Controller implements HasMiddleware
 {
+    /**
+     * Get the middleware that should be assigned to the controller.
+     */
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('can:is-admin', except: ['index', 'show']),
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -66,8 +78,6 @@ class CustomerController extends Controller
             'email' =>  'nullable|unique:users,email',
             'discount_value' => 'nullable|numeric|gte:0',
         ]);
-
-
     }
 
     /**
