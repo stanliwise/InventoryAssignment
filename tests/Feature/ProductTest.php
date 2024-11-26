@@ -14,7 +14,8 @@ test('product index works', function(){
     ProductCategory::factory()->create();
     $this->postJson(route('product.store'), [
         'title' => $this->faker->word,
+        'price' => 20,
         'description' => $this->faker->sentence,
         'product_category_id' => ProductCategory::first()->id,
-    ])->dump();
+    ])->assertOk();
 });

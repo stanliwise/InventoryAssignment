@@ -44,10 +44,10 @@ class ProductController extends Controller
             'price' => 'required|numeric|gt:0',
             'title' => 'required|string',
             'description' => 'required|string',
-            'product_category_id' => 'required|exists:product_categories'
+            'product_category_id' => 'required|exists:product_categories,id'
         ]);
 
-        return Product::create([
+         Product::create([
             'price' => $request->price,
             'title' => $request->title,
             'description' => $request->description,
