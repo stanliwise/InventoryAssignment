@@ -48,10 +48,10 @@ class ProductController extends Controller
         ]);
 
         return Product::create([
-            'price' => $request->request,
+            'price' => $request->price,
             'title' => $request->title,
             'description' => $request->description,
-            'product_category_id' => $request->price,
+            'product_category_id' => $request->product_category_id,
         ]);
     }
 
@@ -76,19 +76,21 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validated = $request->validate([
             'price' => 'nullable|numeric|gt:0',
             'title' => 'nullable|required|string|min:5',
             'description' => 'nullable|required|string||description',
-            'category' => 'nullable|exists:product_categories'
+            'product_category_id' => 'nullable|exists:product_categories'
         ]);
 
-        return $product->update([
-            'price' => $request->request,
-            'title' => $request->title,
-            'description' => $request->description,
-            'product_category_id' => $request->price,
-        ]);
+        // Filter out null values from the validated data
+        $filteredData = collect($validated)->filter(function ($value) {
+            return !is_null($value);
+        })->toArray();
+
+        $product->update($filteredData);
+
+        return (new ProductResource($product))->resolve();
     }
 
     /**
