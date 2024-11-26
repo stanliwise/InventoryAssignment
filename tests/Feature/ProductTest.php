@@ -33,3 +33,15 @@ test('product updating works', function () {
 
     $this->assertDatabaseHas('products', ['title' => 'Caprison']);
 });
+
+test('product delete works', function () {
+    $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
+    $category = ProductCategory::factory()->create();
+    $product = Product::factory()->create(['product_category_id' => $category->id]);
+
+    $this->actingAs($user)->patchJson(route('product.update', ['product' => $product->id]), [
+        'title' => 'Caprison'
+    ])->assertOk();
+
+    $this->assertDatabaseHas('products', ['title' => 'Caprison']);
+});
