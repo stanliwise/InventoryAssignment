@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +27,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::prefix('/admin')
     ->as('admin')
     ->middleware(['auth', 'can:is-admin'])
-    ->group(function(){
-        Route::get('categories/create', function(){
+    ->group(function () {
+        Route::get('categories/create', function () {
             return Inertia::render('Admin/Categories/CreateCategory');
         });
     });
+
+
+Route::resource('product', ProductController::class);
+Route::resource('customer', CustomerController::class);
+Route::resource('productCategory', ProductCategoryController::class);
