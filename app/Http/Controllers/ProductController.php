@@ -41,10 +41,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'price' => 'numeric|gt:0',
-            'title' => 'required|string|min:5',
-            'description' => 'required|string||description',
-            'category' => 'exists:product_categories'
+            'price' => 'required|numeric|gt:0',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'product_category_id' => 'required|exists:product_categories'
         ]);
 
         return Product::create([
@@ -78,9 +78,9 @@ class ProductController extends Controller
     {
         $validated = $request->validate([
             'price' => 'nullable|numeric|gt:0',
-            'title' => 'nullable|required|string|min:5',
-            'description' => 'nullable|required|string||description',
-            'product_category_id' => 'nullable|exists:product_categories'
+            'title' => 'nullable|required|string',
+            'description' => 'nullable|required|string',
+            'product_category_id' => 'nullable|exists:product_categories,id'
         ]);
 
         // Filter out null values from the validated data

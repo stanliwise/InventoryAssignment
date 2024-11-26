@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
+            $table->string('name')->unique();
             $table->integer('discount_value')->nullable();
             $table->timestamps();
         });
