@@ -10,12 +10,15 @@ uses(RefreshDatabase::class);
 uses(WithFaker::class);
 
 test('product index works', function(){
-    User::factory(['is_admin' => true])->create();
+   $user = User::factory(['is_admin' => true, 'discount_value' => 3])->create();
     ProductCategory::factory()->create();
-    $this->postJson(route('product.store'), [
+    $this->actingAs($user)->postJson(route('product.store'), [
         'title' => $this->faker->word,
         'price' => 20,
         'description' => $this->faker->sentence,
         'product_category_id' => ProductCategory::first()->id,
     ])->assertOk();
+});
+
+test('product updating works', function(){
 });

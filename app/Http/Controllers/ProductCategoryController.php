@@ -16,7 +16,7 @@ class ProductCategoryController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('can:is_admin', except: ['index', 'show']),
+            new Middleware('can:is-admin', except: ['index', 'show']),
         ];
     }
 

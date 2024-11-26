@@ -39,6 +39,6 @@ Route::prefix('/admin')
     });
 
 
-Route::resource('product', ProductController::class);
+Route::resource('product', ProductController::class)->middleware('auth');
 Route::resource('customer', CustomerController::class);
 Route::resource('productCategory', ProductCategoryController::class);
