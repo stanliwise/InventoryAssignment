@@ -47,12 +47,14 @@ class ProductController extends Controller
             'product_category_id' => 'required|exists:product_categories,id'
         ]);
 
-         Product::create([
+        $product =  Product::create([
             'price' => $request->price,
             'title' => $request->title,
             'description' => $request->description,
             'product_category_id' => $request->product_category_id,
         ]);
+
+        return (new ProductResource($product))->resolve();
     }
 
     /**
