@@ -34,10 +34,10 @@
     ```shell
     php artisan db serve
     ````
-7. Login details for admin
+7. Login details for admin<br>
    `johndoe@gmail.com`<br>
    `password`
 
-8. To view Users frontend
+8. To view Users frontend<br>
    `user@gmail.com`<br>
    `password`
